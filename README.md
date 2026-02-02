@@ -71,8 +71,8 @@ python3 setup.py --skip-models # Skip model downloads
 
 ### Manual Installation
 
-1. **Download** the extension from [Chrome Web Store](#) or clone this repo
-2. **Open** `chrome://extensions/` in Chrome
+1.  clone this repo
+2. **Open** `chrome://extensions/` in Chrome/Brave/Firefox etc.[ supports all browser ]
 3. **Enable** "Developer mode" (top right)
 4. **Click** "Load unpacked" and select the extension folder
 5. **Pin** the extension icon for easy access
@@ -239,7 +239,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/akashranjan/smart-form-filler/issues)
-- **Email**: support@smartformfiller.com
+
 
 ---
 
