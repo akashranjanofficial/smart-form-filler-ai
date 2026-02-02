@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="150" fill="url(#accentGrad)" opacity="0.1"/>
+  <circle cx="1100" cy="530" r="200" fill="url(#pinkGrad)" opacity="0.1"/>
+  
+  <!-- Logo -->
+  <g transform="translate(150, 215)">
+    <circle cx="100" cy="100" r="95" fill="url(#accentGrad)"/>
+    <rect x="55" y="45" width="70" height="85" rx="6" fill="white" opacity="0.95"/>
+    <rect x="65" y="60" width="40" height="6" rx="3" fill="#667eea"/>
+    <rect x="65" y="75" width="50" height="6" rx="3" fill="#667eea"/>
+    <rect x="65" y="90" width="35" height="6" rx="3" fill="#667eea"/>
+    <rect x="65" y="105" width="45" height="6" rx="3" fill="#667eea"/>
+    <circle cx="135" cy="130" r="35" fill="url(#pinkGrad)"/>
+    <path d="M125 125 Q135 118 145 125 Q150 132 145 139 Q135 146 125 139 Q120 132 125 125" 
+          fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="135" cy="130" r="5" fill="white"/>
+    <path d="M80 115 L88 123 L105 106" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="260" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="white">
+    Smart Form Filler
+  </text>
+  <text x="400" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="bold" fill="url(#pinkGrad)">
+    AI
+  </text>
+  
+  <!-- Tagline -->
+  <text x="400" y="420" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#a0aec0">
+    Intelligent job application autofill powered by AI
+  </text>
+  
+  <!-- Features -->
+  <g transform="translate(400, 480)" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="#718096">
+    <text x="0" y="0">✨ Local AI with Ollama</text>
+    <text x="280" y="0">🧠 Learns from your inputs</text>
+    <text x="560" y="0">🔒 Privacy-focused</text>
+  </g>
+  
+  <!-- Version badge -->
+  <g transform="translate(1050, 50)">
+    <rect x="0" y="0" width="100" height="36" rx="18" fill="url(#accentGrad)"/>
+    <text x="50" y="24" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">v2.0.0</text>
+  </g>
+</svg>

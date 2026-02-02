@@ -1,0 +1,44 @@
+{
+    "profile": {
+        "personal": {
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "phone": "+1-555-0199",
+            "linkedIn": "linkedin.com/in/johndoe",
+            "github": "github.com/johndoe",
+            "portfolio": "johndoe.dev"
+        },
+        "address": {
+            "street": "123 Tech Lane",
+            "city": "San Francisco",
+            "state": "CA",
+            "zip": "94105",
+            "country": "USA"
+        },
+        "summary": "Senior Software Engineer with 8 years of experience in Full Stack Development."
+    },
+    "experience": [
+        {
+            "company": "Tech Corp",
+            "title": "Senior Developer",
+            "startDate": "2020-01",
+            "endDate": "Present",
+            "description": "Leading frontend team."
+        }
+    ],
+    "education": [
+        {
+            "institution": "University of Tech",
+            "degree": "B.S. Computer Science",
+            "startDate": "2012",
+            "endDate": "2016"
+        }
+    ],
+    "settings": {
+        "useAIBrain": false,
+        "ollamaUrl": "http://localhost:11434",
+        "ollamaModel": "llama3.1:latest",
+        "autoShowButton": true
+    }
+}

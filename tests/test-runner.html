@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobFiller AI - Test Runner</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        body {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4fc3f7;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+
+        .test-controls {
+            background: #252526;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #1177bb;
+        }
+
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+
+        .status {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .results-container {
+            background: #252526;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .results-header {
+            background: #333;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #444;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-success {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .badge-error {
+            background: #c62828;
+            color: white;
+        }
+
+        .badge-pending {
+            background: #455a64;
+            color: white;
+        }
+
+        .results-list {
+            padding: 16px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .test-result {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .test-result.passed {
+            background: rgba(46, 125, 50, 0.2);
+            border-left: 3px solid #4caf50;
+        }
+
+        .test-result.failed {
+            background: rgba(198, 40, 40, 0.2);
+            border-left: 3px solid #f44336;
+        }
+
+        .test-icon {
+            font-size: 16px;
+        }
+
+        .test-name {
+            flex: 1;
+        }
+
+        .test-details {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .console-output {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .console-output .log {
+            color: #9cdcfe;
+        }
+
+        .console-output .error {
+            color: #f48771;
+        }
+
+        .console-output .success {
+            color: #4ec9b0;
+        }
+
+        .test-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .test-link {
+            background: #333;
+            color: #4fc3f7;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .test-link:hover {
+            background: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🧪 JobFiller AI - Test Runner</h1>
+
+    <div class="test-controls">
+        <button id="runTests" onclick="runAllTests()">▶ Run All Tests</button>
+        <span class="status" id="testStatus">Ready</span>
+    </div>
+
+    <div class="results-container">
+        <div class="results-header">
+            <span>Test Results</span>
+            <div>
+                <span class="badge badge-pending" id="passedCount">0 Passed</span>
+                <span class="badge badge-pending" id="failedCount">0 Failed</span>
+            </div>
+        </div>
+        <div class="results-list" id="resultsList">
+            <p style="color: #888; text-align: center;">Click "Run All Tests" to start</p>
+        </div>
+    </div>
+
+    <div class="console-output" id="consoleOutput">
+        <div class="log">Console output will appear here...</div>
+    </div>
+
+    <div class="test-links">
+        <a href="linkedin-simulation.html" class="test-link">🔗 LinkedIn Easy Apply Simulation</a>
+        <a href="mock-job-application.html" class="test-link">🔗 Workday Mock Application</a>
+    </div>
+
+    <script src="unit-tests.js"></script>
+    <script>
+        const consoleOutput = document.getElementById('consoleOutput');
+
+        // Capture console.log
+        const originalLog = console.log;
+        console.log = function (...args) {
+            originalLog.apply(console, args);
+            const line = document.createElement('div');
+            line.className = 'log';
+            line.textContent = args.join(' ');
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+
+        async function runAllTests() {
+            const runBtn = document.getElementById('runTests');
+            const status = document.getElementById('testStatus');
+            const resultsList = document.getElementById('resultsList');
+
+            runBtn.disabled = true;
+            status.textContent = 'Running...';
+            resultsList.innerHTML = '';
+            consoleOutput.innerHTML = '';
+
+            try {
+                const { passed, failed, results } = await TestRunner.run();
+
+                // Update counters
+                document.getElementById('passedCount').textContent = `${passed} Passed`;
+                document.getElementById('passedCount').className = `badge ${passed > 0 ? 'badge-success' : 'badge-pending'}`;
+
+                document.getElementById('failedCount').textContent = `${failed} Failed`;
+                document.getElementById('failedCount').className = `badge ${failed > 0 ? 'badge-error' : 'badge-pending'}`;
+
+                // Render results
+                results.forEach(result => {
+                    const div = document.createElement('div');
+                    div.className = `test-result ${result.passed ? 'passed' : 'failed'}`;
+                    div.innerHTML = `
+                    <span class="test-icon">${result.passed ? '✅' : '❌'}</span>
+                    <span class="test-name">${result.testName}</span>
+                    ${result.details ? `<span class="test-details">${result.details}</span>` : ''}
+                `;
+                    resultsList.appendChild(div);
+                });
+
+                status.textContent = `Completed: ${passed} passed, ${failed} failed`;
+            } catch (error) {
+                status.textContent = 'Error: ' + error.message;
+                console.error('Test runner error:', error);
+            }
+
+            runBtn.disabled = false;
+        }
+    </script>
+
+</body>
+
+</html>

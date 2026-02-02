@@ -1,0 +1,600 @@
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">🚀</span>
+        <h1>Smart Filler</h1>
+      </div>
+      <div class="header-actions">
+        <button id="autofillBtn" class="action-btn primary" title="Fill current page forms">🤖 AutoFill</button>
+        <button id="learnBtn" class="action-btn" title="Learn from filled forms">💾 Learn</button>
+        <button id="coverLetterBtn" class="action-btn" title="Generate cover letter">📝 Letter</button>
+        <button id="importBtn" class="icon-btn" title="Import Profile">📥</button>
+        <button id="exportBtn" class="icon-btn" title="Export Profile">📤</button>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="profile">👤 Profile</button>
+      <button class="tab" data-tab="experience">💼 Experience</button>
+      <button class="tab" data-tab="education">🎓 Education</button>
+      <button class="tab" data-tab="skills">🛠️ Skills</button>
+      <button class="tab" data-tab="qna">❓ Q&amp;A</button>
+      <button class="tab" data-tab="documents">📄 Docs</button>
+      <button class="tab" data-tab="ai-brain">🧠 AI Brain</button>
+      <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </nav>
+
+    <!-- Tab Content -->
+    <main class="content">
+      <!-- AI Brain Tab -->
+      <section id="ai-brain-tab" class="tab-content">
+        <div class="section-title">🧠 Exocortex Status</div>
+
+        <!-- Status Indicator -->
+        <div class="card status-card">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div id="brainStatusDot" class="status-dot connected"></div>
+                <div>
+                  <h3 style="margin: 0; font-size: 14px;">AI Brain Server</h3>
+                  <p id="brainStatusText" class="subtext" style="color: var(--success);">Brain Online</p>
+                </div>
+              </div>
+              <button id="pingBrainBtn" class="secondary-btn">⚡ Test Connection</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="brainUrl" style="font-size: 12px; white-space: nowrap;">Server URL:</label>
+              <input type="text" id="brainUrl" placeholder="http://localhost:3000" style="flex: 1; padding: 6px; font-size: 12px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary);">
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="form-group checkbox-group" style="margin-top: 15px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+          <input type="checkbox" id="useAIBrain">
+          <label for="useAIBrain" style="font-weight: 500;">Enable AI Brain Memory</label>
+        </div>
+
+        <!-- Setup Instructions -->
+        <div style="margin-top: 20px;">
+          <div class="section-title">🛠️ Setup Instructions</div>
+          <div class="instruction-step">
+            <span class="step-num">1</span>
+            <p>Open Terminal in <code>ai-brain-server</code> folder.</p>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">2</span>
+            <p>Run command: <code class="code-block">npm run dev</code></p>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">3</span>
+            <p>Wait for: <span style="color: var(--accent-color);">Highcocompus Memory Online</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Tab -->
+      <section id="profile-tab" class="tab-content active">
+        <div class="section-title">Personal Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Doe">
+          </div>
+          <div class="form-group full-width">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="john@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label for="linkedIn">LinkedIn URL</label>
+            <input type="url" id="linkedIn" placeholder="https://linkedin.com/in/johndoe">
+          </div>
+          <div class="form-group">
+            <label for="github">GitHub URL</label>
+            <input type="url" id="github" placeholder="https://github.com/johndoe">
+          </div>
+          <div class="form-group">
+            <label for="portfolio">Portfolio/Website</label>
+            <input type="url" id="portfolio" placeholder="https://johndoe.com">
+          </div>
+        </div>
+
+        <div class="section-title">Address</div>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="street">Street Address</label>
+            <input type="text" id="street" placeholder="123 Main Street">
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" placeholder="Mumbai">
+          </div>
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" placeholder="Maharashtra">
+          </div>
+          <div class="form-group">
+            <label for="zip">PIN Code</label>
+            <input type="text" id="zip" placeholder="400001">
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" placeholder="India">
+          </div>
+        </div>
+
+        <div class="section-title">Professional Summary</div>
+        <div class="form-group full-width">
+          <textarea id="summary" rows="4" placeholder="Brief professional summary about yourself..."></textarea>
+        </div>
+      </section>
+
+      <!-- Experience Tab -->
+      <section id="experience-tab" class="tab-content">
+        <div class="section-header">
+          <div class="section-title">Work Experience</div>
+          <button id="addExperience" class="add-btn">+ Add Experience</button>
+        </div>
+        <div id="experienceList" class="item-list">
+      <div class="empty-state">
+        <div class="icon">💼</div>
+        <p>No work experience added yet</p>
+      </div>
+    </div>
+
+        <!-- Experience Form Modal -->
+        <div id="experienceModal" class="modal hidden">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Add Experience</h3>
+              <button class="close-modal">×</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="expCompany">Company</label>
+                <input type="text" id="expCompany" placeholder="Google">
+              </div>
+              <div class="form-group full-width">
+                <label for="expTitle">Job Title</label>
+                <input type="text" id="expTitle" placeholder="Software Engineer">
+              </div>
+              <div class="form-group">
+                <label for="expLocation">Location</label>
+                <input type="text" id="expLocation" placeholder="Bangalore, India">
+              </div>
+              <div class="form-group">
+                <label for="expStartDate">Start Date</label>
+                <input type="month" id="expStartDate">
+              </div>
+              <div class="form-group">
+                <label for="expEndDate">End Date</label>
+                <input type="month" id="expEndDate">
+              </div>
+              <div class="form-group checkbox-group">
+                <input type="checkbox" id="expCurrent">
+                <label for="expCurrent">Currently working here</label>
+              </div>
+              <div class="form-group full-width">
+                <label for="expDescription">Description</label>
+                <textarea id="expDescription" rows="3" placeholder="Key responsibilities and achievements..."></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="saveExperience" class="primary-btn">Save</button>
+              <button class="cancel-btn close-modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education Tab -->
+      <section id="education-tab" class="tab-content">
+        <div class="section-header">
+          <div class="section-title">Education</div>
+          <button id="addEducation" class="add-btn">+ Add Education</button>
+        </div>
+        <div id="educationList" class="item-list">
+      <div class="empty-state">
+        <div class="icon">🎓</div>
+        <p>No education added yet</p>
+      </div>
+    </div>
+
+        <!-- Education Form Modal -->
+        <div id="educationModal" class="modal hidden">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Add Education</h3>
+              <button class="close-modal">×</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="eduInstitution">Institution</label>
+                <input type="text" id="eduInstitution" placeholder="IIT Delhi">
+              </div>
+              <div class="form-group">
+                <label for="eduDegree">Degree</label>
+                <input type="text" id="eduDegree" placeholder="Bachelor of Technology">
+              </div>
+              <div class="form-group">
+                <label for="eduField">Field of Study</label>
+                <input type="text" id="eduField" placeholder="Computer Science">
+              </div>
+              <div class="form-group">
+                <label for="eduStartDate">Start Date</label>
+                <input type="month" id="eduStartDate">
+              </div>
+              <div class="form-group">
+                <label for="eduEndDate">End Date</label>
+                <input type="month" id="eduEndDate">
+              </div>
+              <div class="form-group">
+                <label for="eduGpa">GPA/Percentage</label>
+                <input type="text" id="eduGpa" placeholder="8.5/10 or 85%">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="saveEducation" class="primary-btn">Save</button>
+              <button class="cancel-btn close-modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Tab -->
+      <section id="skills-tab" class="tab-content">
+        <div class="section-title">Technical Skills</div>
+        <div class="form-group full-width">
+          <input type="text" id="technicalSkillInput" placeholder="Type a skill and press Enter (e.g., Python, JavaScript)">
+          <div id="technicalSkills" class="tags-container"></div>
+        </div>
+
+        <div class="section-title">Programming Languages</div>
+        <div class="form-group full-width">
+          <input type="text" id="languageInput" placeholder="Type a language and press Enter (e.g., English, Hindi)">
+          <div id="languages" class="tags-container"></div>
+        </div>
+
+        <div class="section-title">Soft Skills</div>
+        <div class="form-group full-width">
+          <input type="text" id="softSkillInput" placeholder="Type a skill and press Enter (e.g., Leadership, Communication)">
+          <div id="softSkills" class="tags-container"></div>
+        </div>
+      </section>
+
+      <!-- Q&A Tab -->
+      <section id="qna-tab" class="tab-content">
+        <div class="section-header">
+          <div class="section-title">Common Questions &amp; Answers</div>
+          <button id="addQnA" class="add-btn">+ Add Q&amp;A</button>
+        </div>
+        <p class="hint">Pre-save answers to common job application questions for quick auto-fill.</p>
+        <div id="qnaList" class="item-list">
+    <div class="item-card qna-card" data-id="ml3kfk9wn6huzffnmar">
+      <div class="item-actions">
+        <button class="edit-btn" onclick="editQnA('ml3kfk9wn6huzffnmar')">✏️</button>
+        <button class="delete-btn" onclick="deleteQnA('ml3kfk9wn6huzffnmar')">🗑️</button>
+      </div>
+      <div class="question">Are you authorized to work in India?</div>
+      <div class="answer">Yes</div>
+    </div>
+  
+    <div class="item-card qna-card" data-id="ml3kfk9wqw68w944o8">
+      <div class="item-actions">
+        <button class="edit-btn" onclick="editQnA('ml3kfk9wqw68w944o8')">✏️</button>
+        <button class="delete-btn" onclick="deleteQnA('ml3kfk9wqw68w944o8')">🗑️</button>
+      </div>
+      <div class="question">Will you now or in the future require sponsorship?</div>
+      <div class="answer">No</div>
+    </div>
+  
+    <div class="item-card qna-card" data-id="ml3kfk9wh70kic2xjw9">
+      <div class="item-actions">
+        <button class="edit-btn" onclick="editQnA('ml3kfk9wh70kic2xjw9')">✏️</button>
+        <button class="delete-btn" onclick="deleteQnA('ml3kfk9wh70kic2xjw9')">🗑️</button>
+      </div>
+      <div class="question">What is your expected salary?</div>
+      <div class="answer">(No answer set)</div>
+    </div>
+  
+    <div class="item-card qna-card" data-id="ml3kfk9w1p5bqlt98by">
+      <div class="item-actions">
+        <button class="edit-btn" onclick="editQnA('ml3kfk9w1p5bqlt98by')">✏️</button>
+        <button class="delete-btn" onclick="deleteQnA('ml3kfk9w1p5bqlt98by')">🗑️</button>
+      </div>
+      <div class="question">What is your notice period?</div>
+      <div class="answer">(No answer set)</div>
+    </div>
+  
+    <div class="item-card qna-card" data-id="ml3kfk9wbqi5tdbhtp">
+      <div class="item-actions">
+        <button class="edit-btn" onclick="editQnA('ml3kfk9wbqi5tdbhtp')">✏️</button>
+        <button class="delete-btn" onclick="deleteQnA('ml3kfk9wbqi5tdbhtp')">🗑️</button>
+      </div>
+      <div class="question">Are you willing to relocate?</div>
+      <div class="answer">Yes</div>
+    </div>
+  </div>
+
+        <!-- Q&A Form Modal -->
+        <div id="qnaModal" class="modal hidden">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Add Question &amp; Answer</h3>
+              <button class="close-modal">×</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="qnaQuestion">Question</label>
+                <input type="text" id="qnaQuestion" placeholder="What is your expected salary?">
+              </div>
+              <div class="form-group full-width">
+                <label for="qnaAnswer">Your Answer</label>
+                <textarea id="qnaAnswer" rows="3" placeholder="₹15-20 LPA"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="saveQnA" class="primary-btn">Save</button>
+              <button class="cancel-btn close-modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Documents Tab -->
+      <section id="documents-tab" class="tab-content">
+        <div class="section-title">📄 Resume Parser</div>
+        <div class="form-group full-width" style="text-align: center; margin-bottom: 20px; padding: 20px; border: 2px dashed var(--border-color); border-radius: 8px;">
+          <input type="file" id="resumeUpload" accept=".pdf" style="display: none;">
+          <button id="uploadResumeBtn" class="secondary-btn">
+            📂 Upload Resume (PDF)
+          </button>
+          <p id="resumeFileName" class="hint" style="margin-top: 8px;">No file selected</p>
+        </div>
+
+        <div class="divider"><span>OR</span></div>
+
+        <p class="hint">Paste your resume text below and click "Parse Resume".</p>
+        <div class="form-group full-width">
+          <textarea id="resume" rows="12" placeholder="Paste your complete resume content here...
+
+Example:
+JOHN DOE
+Email: john@email.com | Phone: +91 9876543210
+LinkedIn: linkedin.com/in/johndoe
+
+PROFESSIONAL SUMMARY
+Experienced software engineer with 5+ years...
+
+WORK EXPERIENCE
+Senior Developer at ABC Corp (2020 - Present)
+- Led development of...
+
+EDUCATION
+B.Tech in Computer Science - XYZ University (2015-2019)
+
+SKILLS
+Python, JavaScript, React, Node.js..."></textarea>
+        </div>
+        <div class="button-row">
+          <button id="parseResume" class="primary-btn">🤖 Parse Resume with AI</button>
+          <span id="parseStatus" class="parse-status"></span>
+        </div>
+
+        <div class="section-title">✉️ Cover Letter Template</div>
+        <p class="hint">A template cover letter that can be customized for each application.</p>
+        <div class="form-group full-width">
+          <textarea id="coverLetter" rows="8" placeholder="Dear Hiring Manager,
+
+I am excited to apply for the [Position] role at [Company]..."></textarea>
+        </div>
+      </section>
+
+      <!-- Settings Tab -->
+      <section id="settings-tab" class="tab-content">
+        <!-- OAuth Credentials Configuration -->
+        <div class="section-title">⚙️ OAuth Configuration (One-time setup)</div>
+        <div class="oauth-config-section">
+          <p class="hint">Paste your OAuth credentials JSON from Google Cloud Console. This is required for "Sign in
+            with Google" to work.</p>
+          <div class="form-group full-width">
+            <label for="oauthCredentials">OAuth Credentials JSON</label>
+            <textarea id="oauthCredentials" rows="4" placeholder="{&quot;web&quot;:{&quot;client_id&quot;:&quot;YOUR_CLIENT_ID.apps.googleusercontent.com&quot;,&quot;client_secret&quot;:&quot;YOUR_SECRET&quot;,...}}"></textarea>
+          </div>
+          <div class="button-row">
+            <button id="saveOAuthConfig" class="secondary-btn">💾 Save OAuth Config</button>
+            <span id="oauthConfigStatus" class="parse-status"></span>
+          </div>
+          <p class="hint">📥 Download your credentials from <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a> → OAuth 2.0 Client IDs → Download JSON</p>
+        </div>
+
+        <div class="divider">
+          <span>THEN</span>
+        </div>
+
+        <!-- Google Sign-In Section -->
+        <div class="section-title">🔐 Authentication</div>
+        <div class="auth-section">
+          <div id="signedOutView" class="auth-view">
+            <p class="hint">Sign in with Google to use Gemini AI without needing an API key.</p>
+            <button id="googleSignInBtn" class="google-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+              </svg>
+              Sign in with Google
+            </button>
+          </div>
+          <div id="signedInView" class="auth-view hidden">
+            <div class="user-profile">
+              <img id="userAvatar" src="" alt="User" class="user-avatar">
+              <div class="user-info">
+                <div id="userName" class="user-name"></div>
+                <div id="userEmail" class="user-email"></div>
+              </div>
+            </div>
+            <div class="auth-status">
+              <span class="status-badge success">✓ Connected to Gemini AI</span>
+              <button id="signOutBtn" class="secondary-btn">Sign Out</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Or divider -->
+        <div class="divider">
+          <span>OR</span>
+        </div>
+
+        <!-- Manual API Key (Fallback) -->
+        <div class="section-title">🔑 Manual API Key (Optional)</div>
+        <p class="hint">If you prefer not to sign in, you can use an API key instead.</p>
+        <div class="form-group full-width">
+          <label for="geminiApiKey">Gemini API Key</label>
+          <div class="input-with-btn">
+            <input type="password" id="geminiApiKey" placeholder="Enter your Gemini API key">
+            <button id="toggleApiKey" class="icon-btn">👁️</button>
+            <button id="testApiKey" class="secondary-btn">Test</button>
+          </div>
+          <p class="hint">Get your free API key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></p>
+          <div id="apiKeyStatus" class="status-message hidden"></div>
+        </div>
+
+        <!-- Model Selection (Hidden by default) -->
+        <div id="modelSelectionSection" class="form-group full-width hidden" style="margin-top: 12px;">
+          <label for="geminiModel">Model Selection</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <select id="geminiModel" class="full-width-select" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary);">
+              <option value="" disabled="" selected="">Select a model</option>
+            </select>
+            <button id="testModel" class="secondary-btn" style="white-space: nowrap;">Test Model</button>
+          </div>
+          <div id="modelStatus" class="status-message hidden" style="margin-top: 8px;"></div>
+          <p class="hint">Select a model and click Test to verify it works.</p>
+        </div>
+
+        <!-- Local Model (Ollama) Section -->
+        <div class="section-title">🖥️ Local Model (Ollama)</div>
+        <div class="form-group full-width">
+          <p class="hint" style="margin-bottom: 8px;">Run AI locally with unlimited usage - no API costs!</p>
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+            <input type="text" id="ollamaUrl" placeholder="http://localhost:11434" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary);">
+            <button id="connectOllama" class="secondary-btn">Connect</button>
+          </div>
+          <div id="ollamaStatus" class="status-message hidden"></div>
+        </div>
+
+        <!-- Ollama Model Selection (hidden until connected) -->
+        <div id="ollamaModelSection" class="form-group full-width hidden" style="margin-top: 8px;">
+          <label for="ollamaModel">Local Model</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <select id="ollamaModel" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary);">
+              <option value="" disabled="" selected="">Select a model</option>
+            </select>
+            <button id="testOllamaModel" class="secondary-btn">Test</button>
+          </div>
+          <div id="ollamaModelStatus" class="status-message hidden" style="margin-top: 8px;"></div>
+        </div>
+
+        <!-- AI Brain Toggle -->
+        <div id="aiBrainSection" class="form-group checkbox-group" style="margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 12px;">
+          <input type="checkbox" id="useAIBrain">
+          <label for="useAIBrain">🧠 Use AI Brain (Memory &amp; Context)</label>
+        </div>
+        <p class="hint" style="margin-top: 4px;">Requires <code>ai-brain-server</code> running on port 3000.</p>
+
+        <!-- Ollama Setup Instructions (shown when not connected) -->
+        <div id="ollamaInstructions" class="form-group full-width" style="margin-top: 8px;">
+          <details>
+            <summary style="cursor: pointer; color: var(--text-secondary);">📖 How to set up Ollama</summary>
+            <div style="margin-top: 8px; padding: 12px; background: var(--bg-secondary); border-radius: 8px; font-size: 12px;">
+              <p><strong>1. Install Ollama:</strong></p>
+              <code style="display: block; padding: 8px; background: var(--bg-primary); border-radius: 4px; margin: 8px 0;">brew install ollama</code>
+              <p>Or download from <a href="https://ollama.ai" target="_blank" style="color: var(--primary-color);">ollama.ai</a></p>
+              <p style="margin-top: 12px;"><strong>2. Pull a model:</strong></p>
+              <code style="display: block; padding: 8px; background: var(--bg-primary); border-radius: 4px; margin: 8px 0;">ollama pull llama3.2</code>
+              <p style="margin-top: 12px;"><strong>3. Start Ollama:</strong></p>
+              <code style="display: block; padding: 8px; background: var(--bg-primary); border-radius: 4px; margin: 8px 0;">ollama serve</code>
+              <p style="margin-top: 12px;"><strong>4. Click Connect above!</strong></p>
+            </div>
+          </details>
+        </div>
+
+        <div class="section-title">Preferences</div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="autoShowButton" checked="">
+          <label for="autoShowButton">Show autofill button on pages with forms</label>
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="enableAI" checked="">
+          <label for="enableAI">Enable AI-powered form filling (Ollama / Gemini)</label>
+        </div>
+
+        <div class="section-title danger-zone">Danger Zone</div>
+        <button id="clearData" class="danger-btn">🗑️ Clear All Data</button>
+      </section>
+    </main>
+
+    <!-- Save Button -->
+    <footer class="footer">
+      <div id="saveStatus" class="save-status"></div>
+      <button id="saveBtn" class="save-btn">💾 Save All</button>
+      <div class="developer-credits">
+        <p>Developed by <strong>Akash Ranjan</strong></p>
+        <p>C++ Software Engineer | Backend Developer | Embedded Systems</p>
+        <div class="social-links">
+          <a href="https://linkedin.com/in/akashranjan" target="_blank" title="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+            </svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/akashranjan" target="_blank" title="GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Import Modal -->
+  <div id="importModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Import Profile</h3>
+        <button class="close-modal">×</button>
+      </div>
+      <div class="form-group full-width">
+        <label for="importData">Paste JSON Data</label>
+        <textarea id="importData" rows="10" placeholder="Paste your exported profile JSON here..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="confirmImport" class="primary-btn">Import</button>
+        <button class="cancel-btn close-modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file input for import -->
+  <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+  <script src="popup.js" type="module"></script>
+
+

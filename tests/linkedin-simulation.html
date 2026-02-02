@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Easy Apply Simulation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f3f2ef;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* LinkedIn-like styling */
+        .job-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
+            padding: 24px;
+        }
+
+        .job-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            width: 72px;
+            height: 72px;
+            background: #0a66c2;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .job-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, .9);
+            margin: 0 0 4px 0;
+        }
+
+        .company-name {
+            color: #0a66c2;
+            font-size: 16px;
+            margin: 0 0 4px 0;
+        }
+
+        .job-meta {
+            color: rgba(0, 0, 0, .6);
+            font-size: 14px;
+        }
+
+        /* Easy Apply Button - LinkedIn style */
+        .jobs-apply-button,
+        .artdeco-button {
+            background: #0a66c2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .jobs-apply-button:hover {
+            background: #004182;
+        }
+
+        .artdeco-button__text {
+            /* LinkedIn nested span */
+        }
+
+        .jobs-apply-button svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .75);
+            display: none;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: rgba(0, 0, 0, .9);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: rgba(0, 0, 0, .6);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(0, 0, 0, .08);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, .9);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, .24);
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0a66c2;
+            box-shadow: 0 0 0 1px #0a66c2;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Datepicker */
+        .form-group input[type="date"] {
+            padding: 10px;
+        }
+
+        /* Radio/Checkbox */
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .radio-group input {
+            width: auto;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed rgba(0, 0, 0, .24);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #0a66c2;
+            background: #f3f2ef;
+        }
+
+        /* Progress Indicator */
+        .progress-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .progress-step {
+            flex: 1;
+            height: 4px;
+            background: rgba(0, 0, 0, .12);
+            border-radius: 2px;
+        }
+
+        .progress-step.active {
+            background: #0a66c2;
+        }
+
+        .progress-step.completed {
+            background: #057642;
+        }
+
+        /* Job Description */
+        .job-description {
+            margin-top: 24px;
+            line-height: 1.6;
+        }
+
+        .job-description h3 {
+            font-size: 16px;
+            margin: 20px 0 12px 0;
+        }
+
+        .job-description ul {
+            padding-left: 20px;
+        }
+
+        /* Test Panel */
+        .test-panel {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            width: 280px;
+            background: #1d2226;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            z-index: 10000;
+        }
+
+        .test-panel h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #0a66c2;
+        }
+
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+
+        .badge-waiting {
+            background: #ffc107;
+            color: black;
+        }
+
+        .badge-success {
+            background: #057642;
+            color: white;
+        }
+
+        .badge-error {
+            background: #cc1016;
+            color: white;
+        }
+
+        /* Secondary Button */
+        .btn-secondary {
+            background: transparent;
+            color: rgba(0, 0, 0, .6);
+            border: 1px solid rgba(0, 0, 0, .6);
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Test Status Panel -->
+    <div class="test-panel">
+        <h3>🧪 LinkedIn Easy Apply Test</h3>
+        <div class="test-item">Current Step: <span id="stepIndicator" class="badge badge-waiting">1 of 3</span></div>
+        <div class="test-item">Easy Apply Button: <span id="easyApplyStatus" class="badge badge-waiting">Waiting</span>
+        </div>
+        <div class="test-item">Contact Form: <span id="contactStatus" class="badge badge-waiting">Waiting</span></div>
+        <div class="test-item">Questions Form: <span id="questionsStatus" class="badge badge-waiting">Waiting</span>
+        </div>
+        <div class="test-item">Submit: <span id="submitStatus" class="badge badge-waiting">Waiting</span></div>
+        <div style="margin-top: 12px; color: rgba(255,255,255,.6); font-size: 11px;">
+            Click "⚡ Auto Apply" to test the full flow
+        </div>
+    </div>
+
+    <!-- Job Card -->
+    <div class="job-card">
+        <div class="job-header">
+            <div class="company-logo">AI</div>
+            <div>
+                <h1 class="job-title">Senior Software Engineer</h1>
+                <p class="company-name">AI Startup Inc.</p>
+                <p class="job-meta">San Francisco, CA (Remote) · Full-time · $180k - $250k</p>
+            </div>
+        </div>
+
+        <!-- Easy Apply Button with LinkedIn classes -->
+        <button class="jobs-apply-button artdeco-button" id="easyApplyBtn"
+            aria-label="Easy Apply to Senior Software Engineer at AI Startup Inc."
+            data-control-name="jobdetails_topcard_inapply">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M21 13v7a1 1 0 01-1 1H4a1 1 0 01-1-1v-7h2v6h14v-6h2zM12 3a1 1 0 011 1v8.59l2.29-2.3a1 1 0 111.42 1.42l-4 4a1 1 0 01-1.42 0l-4-4a1 1 0 111.42-1.42L11 12.59V4a1 1 0 011-1z">
+                </path>
+            </svg>
+            <span class="artdeco-button__text">Easy Apply</span>
+        </button>
+
+        <!-- Job Description -->
+        <div class="job-description">
+            <h3>About the job</h3>
+            <p>We are looking for a <strong>Senior Software Engineer</strong> to join our AI team. You will work on
+                cutting-edge machine learning infrastructure and build scalable systems that power our products.</p>
+
+            <h3>Responsibilities</h3>
+            <ul>
+                <li>Design and implement distributed systems for ML training and inference</li>
+                <li>Optimize performance of Python and Go microservices</li>
+                <li>Collaborate with ML engineers on model deployment pipelines</li>
+                <li>Mentor junior engineers and contribute to technical direction</li>
+            </ul>
+
+            <h3>Requirements</h3>
+            <ul>
+                <li>5+ years of experience in software engineering</li>
+                <li>Strong proficiency in Python, Go, or Rust</li>
+                <li>Experience with Kubernetes, Docker, and cloud platforms (AWS/GCP)</li>
+                <li>Bachelor's degree in Computer Science or equivalent</li>
+            </ul>
+
+            <h3>Nice to Have</h3>
+            <ul>
+                <li>Experience with ML frameworks (PyTorch, TensorFlow)</li>
+                <li>Knowledge of LLMs and prompt engineering</li>
+                <li>Open source contributions</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Apply to AI Startup Inc.</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <!-- Step 1: Contact Info -->
+            <div class="modal-body" id="step1">
+                <div class="progress-bar">
+                    <div class="progress-step active"></div>
+                    <div class="progress-step"></div>
+                    <div class="progress-step"></div>
+                </div>
+                <h3>Contact info</h3>
+                <div class="form-group">
+                    <label>Email address *</label>
+                    <input type="email" id="email" placeholder="your@email.com" aria-label="Email address">
+                </div>
+                <div class="form-group">
+                    <label>Phone number *</label>
+                    <input type="tel" id="phone" placeholder="+1 (555) 123-4567" aria-label="Phone number">
+                </div>
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" id="city" placeholder="San Francisco" aria-label="City">
+                </div>
+            </div>
+
+            <!-- Step 2: Additional Questions -->
+            <div class="modal-body" id="step2" style="display:none;">
+                <div class="progress-bar">
+                    <div class="progress-step completed"></div>
+                    <div class="progress-step active"></div>
+                    <div class="progress-step"></div>
+                </div>
+                <h3>Additional questions</h3>
+
+                <div class="form-group">
+                    <label>How many years of experience do you have with Python? *</label>
+                    <select id="pythonExp" aria-label="Years of Python experience">
+                        <option value="">Select...</option>
+                        <option value="1-2">1-2 years</option>
+                        <option value="3-4">3-4 years</option>
+                        <option value="5+">5+ years</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>When can you start? *</label>
+                    <input type="date" id="startDate" aria-label="Start date">
+                </div>
+
+                <div class="form-group">
+                    <label>Are you authorized to work in the US? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="workAuth" value="Yes"> Yes</label>
+                        <label><input type="radio" name="workAuth" value="No"> No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Do you require visa sponsorship? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="visaSponsorship" value="Yes"> Yes</label>
+                        <label><input type="radio" name="visaSponsorship" value="No"> No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Why are you interested in this role? (Optional)</label>
+                    <textarea id="whyInterested" placeholder="Share what excites you about this opportunity..."
+                        aria-label="Why interested"></textarea>
+                </div>
+            </div>
+
+            <!-- Step 3: Review -->
+            <div class="modal-body" id="step3" style="display:none;">
+                <div class="progress-bar">
+                    <div class="progress-step completed"></div>
+                    <div class="progress-step completed"></div>
+                    <div class="progress-step active"></div>
+                </div>
+                <h3>Review your application</h3>
+                <p>Please review your application before submitting.</p>
+
+                <div class="form-group">
+                    <label>Resume</label>
+                    <div class="file-upload">
+                        <p>📄 Upload your resume (PDF, DOC)</p>
+                    </div>
+                </div>
+
+                <div id="reviewSummary"
+                    style="background: #f3f2ef; padding: 16px; border-radius: 8px; margin-top: 16px;">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Footer with Navigation -->
+            <div class="modal-footer">
+                <button class="btn-secondary" id="backBtn" onclick="prevStep()" style="display:none;">Back</button>
+                <button class="artdeco-button" id="nextBtn" onclick="nextStep()">
+                    <span class="artdeco-button__text">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        // Open Modal
+        document.getElementById('easyApplyBtn').addEventListener('click', function () {
+            document.getElementById('applyModal').classList.add('active');
+            updateStatus('easyApplyStatus', 'Clicked!', 'success');
+            updateStepIndicator();
+        });
+
+        function closeModal() {
+            document.getElementById('applyModal').classList.remove('active');
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                // Validate step 1
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                if (email && phone) {
+                    updateStatus('contactStatus', 'Filled', 'success');
+                }
+            }
+
+            if (currentStep === 2) {
+                updateStatus('questionsStatus', 'Filled', 'success');
+                // Populate review
+                populateReview();
+            }
+
+            if (currentStep === 3) {
+                // Submit!
+                updateStatus('submitStatus', 'Submitted!', 'success');
+                alert('✅ Application Submitted Successfully!\n\nThe Auto Apply Agent completed the full flow.');
+                closeModal();
+                return;
+            }
+
+            document.getElementById('step' + currentStep).style.display = 'none';
+            currentStep++;
+            document.getElementById('step' + currentStep).style.display = 'block';
+
+            // Update buttons
+            document.getElementById('backBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            if (currentStep === totalSteps) {
+                document.getElementById('nextBtn').innerHTML = '<span class="artdeco-button__text">Submit application</span>';
+            }
+
+            updateStepIndicator();
+        }
+
+        function prevStep() {
+            document.getElementById('step' + currentStep).style.display = 'none';
+            currentStep--;
+            document.getElementById('step' + currentStep).style.display = 'block';
+            document.getElementById('backBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('nextBtn').innerHTML = '<span class="artdeco-button__text">Next</span>';
+            updateStepIndicator();
+        }
+
+        function updateStepIndicator() {
+            document.getElementById('stepIndicator').textContent = currentStep + ' of ' + totalSteps;
+        }
+
+        function updateStatus(id, text, type) {
+            const el = document.getElementById(id);
+            el.textContent = text;
+            el.className = 'badge badge-' + type;
+        }
+
+        function populateReview() {
+            const summary = document.getElementById('reviewSummary');
+            summary.innerHTML = `
+            <p><strong>Email:</strong> ${document.getElementById('email').value || 'Not provided'}</p>
+            <p><strong>Phone:</strong> ${document.getElementById('phone').value || 'Not provided'}</p>
+            <p><strong>Python Experience:</strong> ${document.getElementById('pythonExp').value || 'Not selected'}</p>
+            <p><strong>Start Date:</strong> ${document.getElementById('startDate').value || 'Not selected'}</p>
+        `;
+        }
+
+        // Monitor for extension interactions
+        setInterval(() => {
+            // Check if fields are being filled
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            if (email && email.value && phone && phone.value) {
+                updateStatus('contactStatus', 'Auto-filled', 'success');
+            }
+        }, 500);
+    </script>
+
+</body>
+
+</html>

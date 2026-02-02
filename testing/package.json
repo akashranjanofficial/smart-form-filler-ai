@@ -1,0 +1,1 @@
+{"name": "smart-form-filler-tests", "version": "1.0.0", "scripts": {"test": "jest"}, "dependencies": {"jest": "^29.7.0", "puppeteer": "^22.0.0"}}

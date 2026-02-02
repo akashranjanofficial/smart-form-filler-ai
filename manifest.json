@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Form Filler AI",
+  "version": "2.0.0",
+  "description": "AI-powered smart form filler with memory. Automatically fills job applications using your profile data, learns from your inputs, and gets smarter over time.",
+  "author": "Akash Ranjan",
+  "homepage_url": "https://github.com/akashranjan/smart-form-filler",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Smart Form Filler AI"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "optional_permissions": [
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*",
+    "http://localhost:11434/*",
+    "http://127.0.0.1:11434/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "css": [
+        "styles/content.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

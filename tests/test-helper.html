@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extension Test Helper</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 0; }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover { background: #5558e3; }
+        button.danger { background: #ef4444; }
+        button.success { background: #22c55e; }
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        .status.success { background: #dcfce7; color: #166534; }
+        .status.error { background: #fee2e2; color: #991b1b; }
+        .status.info { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Smart Form Filler - Test Helper</h1>
+    
+    <div class="card">
+        <h2>1. Inject Test Profile Data</h2>
+        <p>This will save test profile data to the extension's storage.</p>
+        <button onclick="injectTestData()">💉 Inject Test Data</button>
+        <button onclick="checkStorage()" class="success">🔍 Check Storage</button>
+        <button onclick="clearStorage()" class="danger">🗑️ Clear Storage</button>
+        <div id="status1" class="status info" style="display:none;"></div>
+    </div>
+    
+    <div class="card">
+        <h2>2. Test Profile Data Preview</h2>
+        <pre id="dataPreview"></pre>
+    </div>
+    
+    <div class="card">
+        <h2>3. Current Storage Contents</h2>
+        <pre id="storageContents">Click "Check Storage" to view</pre>
+    </div>
+    
+    <div class="card">
+        <h2>4. Next Steps</h2>
+        <ol>
+            <li>Click "Inject Test Data" above</li>
+            <li>Open <a href="mock-job-application.html" target="_blank">Mock Job Application Form</a></li>
+            <li>Click the floating "AutoFill" button</li>
+            <li>Check if form fields are filled!</li>
+        </ol>
+    </div>
+
+    <script>
+        // Test profile data matching extension's expected format
+        const TEST_PROFILE_DATA = {
+            profile: {
+                personal: {
+                    firstName: 'Akash',
+                    lastName: 'Ranjan',
+                    email: 'akash.ranjan@example.com',
+                    phone: '+91 9876543210',
+                    linkedIn: 'https://linkedin.com/in/akashranjan',
+                    github: 'https://github.com/akashranjan',
+                    portfolio: 'https://akashranjan.dev'
+                },
+                address: {
+                    street: '123 Main Street',
+                    city: 'Bangalore',
+                    state: 'Karnataka',
+                    zip: '560001',
+                    country: 'India'
+                },
+                summary: 'Full-stack engineer with 5+ years of experience building scalable web applications. Expertise in React, Node.js, Python, and cloud infrastructure.'
+            },
+            experience: [
+                {
+                    id: 'exp1',
+                    company: 'Tech Startup Inc.',
+                    title: 'Senior Software Engineer',
+                    location: 'Remote',
+                    startDate: '2021-01',
+                    endDate: '',
+                    current: true,
+                    description: 'Led development of microservices architecture serving 1M+ users'
+                },
+                {
+                    id: 'exp2',
+                    company: 'BigCorp Technologies',
+                    title: 'Software Engineer',
+                    location: 'Bangalore',
+                    startDate: '2019-06',
+                    endDate: '2021-01',
+                    current: false,
+                    description: 'Built real-time data pipelines processing 10TB/day'
+                }
+            ],
+            education: [
+                {
+                    id: 'edu1',
+                    institution: 'IIT Delhi',
+                    degree: 'Bachelor of Technology',
+                    field: 'Computer Science',
+                    startDate: '2015',
+                    endDate: '2019',
+                    gpa: '8.5'
+                }
+            ],
+            skills: {
+                technical: ['JavaScript', 'Python', 'TypeScript', 'React', 'Node.js', 'AWS', 'Docker'],
+                languages: ['English', 'Hindi'],
+                soft: ['Leadership', 'Communication', 'Problem Solving']
+            },
+            documents: {
+                resume: '',
+                coverLetter: ''
+            },
+            qna: [
+                { id: 'q1', question: 'Are you authorized to work in India?', answer: 'Yes' },
+                { id: 'q2', question: 'Will you require sponsorship?', answer: 'No' },
+                { id: 'q3', question: 'What is your expected salary?', answer: '25-30 LPA' },
+                { id: 'q4', question: 'What is your notice period?', answer: '30 days' },
+                { id: 'q5', question: 'Are you willing to relocate?', answer: 'Yes' }
+            ],
+            settings: {
+                autoShowButton: true,
+                enableAI: true,
+                useAIBrain: false
+            }
+        };
+
+        // Display test data
+        document.getElementById('dataPreview').textContent = JSON.stringify(TEST_PROFILE_DATA, null, 2);
+
+        function showStatus(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = 'status ' + type;
+            el.style.display = 'block';
+        }
+
+        function injectTestData() {
+            if (typeof chrome === 'undefined' || !chrome.storage) {
+                showStatus('status1', '❌ Chrome storage API not available. Make sure the extension is installed and this page is opened from the extension folder.', 'error');
+                return;
+            }
+
+            chrome.storage.local.set(TEST_PROFILE_DATA, () => {
+                if (chrome.runtime.lastError) {
+                    showStatus('status1', '❌ Error: ' + chrome.runtime.lastError.message, 'error');
+                } else {
+                    showStatus('status1', '✅ Test data injected successfully! Now open a form and click AutoFill.', 'success');
+                    checkStorage();
+                }
+            });
+        }
+
+        function checkStorage() {
+            if (typeof chrome === 'undefined' || !chrome.storage) {
+                document.getElementById('storageContents').textContent = 'Chrome storage API not available';
+                return;
+            }
+
+            chrome.storage.local.get(null, (result) => {
+                document.getElementById('storageContents').textContent = JSON.stringify(result, null, 2);
+                
+                const hasProfile = result.profile?.personal?.firstName;
+                if (hasProfile) {
+                    showStatus('status1', '✅ Profile data found: ' + result.profile.personal.firstName + ' ' + result.profile.personal.lastName, 'success');
+                } else {
+                    showStatus('status1', '⚠️ No profile data in storage. Click "Inject Test Data" first.', 'info');
+                }
+            });
+        }
+
+        function clearStorage() {
+            if (typeof chrome === 'undefined' || !chrome.storage) {
+                showStatus('status1', '❌ Chrome storage API not available', 'error');
+                return;
+            }
+
+            if (confirm('Are you sure you want to clear all extension data?')) {
+                chrome.storage.local.clear(() => {
+                    showStatus('status1', '🗑️ Storage cleared!', 'info');
+                    document.getElementById('storageContents').textContent = '{}';
+                });
+            }
+        }
+
+        // Auto-check on load
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+            checkStorage();
+        }
+    </script>
+</body>
+</html>

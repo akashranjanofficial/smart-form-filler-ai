@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Workday Job Application (Advanced)</title>
+    <style>
+        body {
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0875e1;
+            font-size: 24px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e1e1e1;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Workday Style Fields */
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #0875e1;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(8, 117, 225, 0.2);
+        }
+
+        /* Workday Searchable Dropdown Simulation */
+        .searchable-dropdown {
+            position: relative;
+        }
+
+        .dropdown-icon {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            color: #666;
+            pointer-events: none;
+        }
+
+        /* Rich Text Editor Simulation */
+        .rich-text-wrapper {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        .toolbar {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            width: 20px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 3px;
+        }
+
+        .rich-text-editor {
+            min-height: 120px;
+            padding: 15px;
+            outline: none;
+            overflow-y: auto;
+            font-family: inherit;
+        }
+
+        .rich-text-editor:empty:before {
+            content: attr(placeholder);
+            color: #aaa;
+        }
+
+        /* Dynamic Buttons */
+        .add-btn {
+            background: transparent;
+            color: #0875e1;
+            border: 1px solid #0875e1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .add-btn:hover {
+            background: #0875e1;
+            color: white;
+        }
+
+        .add-btn::before {
+            content: '+';
+            font-size: 18px;
+        }
+
+        /* Verification Panel */
+        .verify-panel {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            width: 280px;
+            background: #212529;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .status-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        fieldset {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #0875e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="verify-panel">
+        <h3 style="margin-top:0">🧪 Workday Simulator</h3>
+        <div class="status-item">Fields Filled: <span class="badge badge-pending" id="fieldCount">0</span></div>
+        <div class="status-item">Selects: <span class="badge badge-pending" id="selectStatus">Waiting</span></div>
+        <div class="status-item">Rich Text: <span class="badge badge-pending" id="richStatus">Waiting</span></div>
+        <div style="margin-top:15px; font-size:12px; color:#aaa;">Open Extension > AutoFill to test</div>
+    </div>
+
+    <div class="container">
+        <h1>Application: Principal Software Engineer</h1>
+
+        <!-- 1. Contact Info -->
+        <h2>My Information</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" data-automation-id="legalNameSection_firstName">
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" data-automation-id="legalNameSection_lastName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Address Line 1</label>
+            <input type="text" data-automation-id="addressSection_addressLine1">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" data-automation-id="addressSection_city">
+            </div>
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input type="text" data-automation-id="addressSection_postalCode">
+            </div>
+        </div>
+
+        <!-- 2. Work Experience (Rich Text + Dynamic) -->
+        <h2>Work Experience</h2>
+        <div id="experienceContainer">
+            <!-- Initially empty or one item -->
+            <fieldset>
+                <legend>Experience 1</legend>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" data-automation-id="jobTitle">
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" data-automation-id="company">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Month</label>
+                        <select aria-label="Start Month">
+                            <option>Select</option>
+                            <option>01</option>
+                            <option>02</option>
+                            <option>06</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Year</label>
+                        <input type="number" aria-label="Start Year" placeholder="YYYY">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Role Description</label>
+                    <div class="rich-text-wrapper">
+                        <div class="toolbar">
+                            <div class="tool-btn"></div>
+                            <div class="tool-btn"></div>
+                        </div>
+                        <div class="rich-text-editor" contenteditable="true" role="textbox" aria-label="Job Description"
+                            data-automation-id="jobDescription"></div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <button class="add-btn" onclick="addSection('experienceContainer')">Add Work Experience</button>
+
+        <!-- 3. Education (The Problem Area) -->
+        <h2>Education</h2>
+        <div id="educationContainer">
+            <fieldset>
+                <legend>Education 1</legend>
+                <div class="form-group">
+                    <label>School or University</label>
+                    <div class="searchable-dropdown">
+                        <input type="text" placeholder="Search..." aria-label="School">
+                        <span class="dropdown-icon">▼</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Degree</label>
+                    <!-- Native Select (What user said was broken) -->
+                    <select aria-label="Degree" id="degreeSelect">
+                        <option value="">Select Degree...</option>
+                        <option value="High School">High School Diploma</option>
+                        <option value="Associate">Associate's Degree</option>
+                        <option value="Bachelor">Bachelor's Degree</option>
+                        <option value="Master">Master's Degree</option>
+                        <option value="Doctorate">Doctorate / PhD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Field of Study</label>
+                    <input type="text" aria-label="Field of Study">
+                </div>
+            </fieldset>
+        </div>
+        <button class="add-btn" onclick="addSection('educationContainer')">Add Education</button>
+
+        <!-- 4. Voluntary Self-Identification -->
+        <h2>Voluntary Disclosures</h2>
+        <div class="form-group">
+            <label>Are you a veteran?</label>
+            <div>
+                <label style="display:inline"><input type="radio" name="veteran" value="Yes"> Yes, I am a
+                    veteran</label><br>
+                <label style="display:inline"><input type="radio" name="veteran" value="No"> No, I am not a
+                    veteran</label>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function addSection(containerId) {
+            const container = document.getElementById(containerId);
+            const count = container.children.length + 1;
+            const clone = container.children[0].cloneNode(true);
+            clone.querySelector('legend').innerText = (containerId.includes('exp') ? 'Experience ' : 'Education ') + count;
+            // Clear inputs
+            clone.querySelectorAll('input, select').forEach(el => el.value = '');
+            clone.querySelectorAll('.rich-text-editor').forEach(el => el.innerText = '');
+            container.appendChild(clone);
+        }
+
+        // Monitoring
+        setInterval(() => {
+            // Field Count
+            const count = document.querySelectorAll('input:not(:placeholder-shown), select:not([value=""]), .rich-text-editor:not(:empty)').length;
+            document.getElementById('fieldCount').innerText = count;
+            if (count > 0) document.getElementById('fieldCount').className = 'badge badge-success';
+
+            // Select Check
+            const select = document.getElementById('degreeSelect');
+            if (select.value) {
+                document.getElementById('selectStatus').innerText = 'Working (' + select.value + ')';
+                document.getElementById('selectStatus').className = 'badge badge-success';
+            }
+
+            // Rich Text Check
+            const editor = document.querySelector('.rich-text-editor');
+            if (editor.innerText.trim().length > 10) {
+                document.getElementById('richStatus').innerText = 'Working';
+                document.getElementById('richStatus').className = 'badge badge-success';
+            }
+        }, 1000);
+    </script>
+
+</body>
+
+</html>

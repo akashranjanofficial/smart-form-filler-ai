@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+ai-brain-server/node_modules/
+
+# Build outputs
+dist/
+build/
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test outputs
+coverage/
+.nyc_output/
+/tmp/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Chrome extension development
+*.pem
+*.crx
+
+# Temporary files
+*.tmp
+*.bak
+
+# Memory index (regenerated)
+ai-brain-server/memory_index/

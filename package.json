@@ -1,0 +1,45 @@
+{
+    "name": "smart-form-filler-ai",
+    "version": "2.0.0",
+    "description": "AI-powered job application form filler Chrome extension",
+    "private": true,
+    "scripts": {
+        "test": "jest --config jest.config.js",
+        "test:watch": "jest --watch",
+        "test:headed": "HEADLESS=false jest",
+        "test:e2e": "jest tests/e2e",
+        "test:e2e:ui": "node tests/e2e/ui-test-suite.js",
+        "test:e2e:manual": "node tests/e2e/ui-test-suite.js --manual",
+        "test:unit": "jest tests/service-worker.test.js tests/content.test.js",
+        "test:all": "jest tests/",
+        "test:brain": "cd ai-brain-server && npm test",
+        "clean": "rm -rf dist build *.zip",
+        "build": "npm run clean && mkdir -p dist/background && cp manifest.json dist/ && cp background/service-worker.js dist/background/ && cp -r content popup styles icons dist/",
+        "package": "npm run build && cd dist && zip -r ../smart-form-filler-ai-v2.0.0.zip . && cd .. && echo '✅ Package created: smart-form-filler-ai-v2.0.0.zip'",
+        "lint": "echo 'Linting...' && node -c background/service-worker.js && node -c content/content.js && node -c popup/popup.js && echo '✅ No syntax errors'",
+        "prerelease": "npm run lint && npm run test:unit && echo '✅ Pre-release checks passed'"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "jsdom": "^24.1.3",
+        "puppeteer": "^21.6.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "author": "Akash Ranjan",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/akashranjan/smart-form-filler.git"
+    },
+    "keywords": [
+        "chrome-extension",
+        "form-filler",
+        "autofill",
+        "job-application",
+        "ai",
+        "ollama",
+        "productivity"
+    ]
+}
