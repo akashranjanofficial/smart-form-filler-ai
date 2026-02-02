@@ -40,7 +40,36 @@
 
 ## 🚀 Quick Start
 
-### Installation
+### One-Command Setup (Recommended)
+
+Clone the repo and run the automated setup script:
+
+```bash
+# Clone the repository
+git clone https://github.com/akashranjanofficial/smart-form-filler-ai.git
+cd smart-form-filler-ai
+
+# Run automated setup (installs everything!)
+python3 setup.py
+```
+
+The setup script will:
+- ✅ Check and install Node.js if needed
+- ✅ Install and start Ollama
+- ✅ Download AI models (llama3.2:3b)
+- ✅ Install all npm dependencies
+- ✅ Create default configuration files
+- ✅ Set up the AI Brain server
+
+**Setup Options:**
+```bash
+python3 setup.py --check       # Check requirements only
+python3 setup.py --ollama      # Setup Ollama only
+python3 setup.py --dev         # Setup dev environment only
+python3 setup.py --skip-models # Skip model downloads
+```
+
+### Manual Installation
 
 1. **Download** the extension from [Chrome Web Store](#) or clone this repo
 2. **Open** `chrome://extensions/` in Chrome
@@ -48,7 +77,7 @@
 4. **Click** "Load unpacked" and select the extension folder
 5. **Pin** the extension icon for easy access
 
-### Setup
+### Profile Setup
 
 1. Click the extension icon → Fill in your **Profile** (name, email, phone, etc.)
 2. Add your **Experience**, **Education**, and **Skills**
@@ -83,6 +112,9 @@ For smarter, context-aware filling:
 | **AI Brain** | Optional local server with memory/RAG for the best results |
 
 ### Ollama Setup
+
+If you used `setup.py`, Ollama is already configured! For manual setup:
+
 ```bash
 # Install Ollama (macOS)
 brew install ollama
@@ -91,7 +123,7 @@ brew install ollama
 ollama serve
 
 # Pull a model
-ollama pull llama3.1:latest
+ollama pull llama3.2:3b
 ```
 
 ### AI Brain Server Setup
